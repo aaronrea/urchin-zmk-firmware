@@ -1,0 +1,164 @@
+/*
+ * Hybrid Urchin + Voyager Keymap
+ * Combines Urchin ZMK base with Voyager QMK combos and features
+ *
+ * Changes from original Urchin:
+ * - Added Y+U = Backspace combo
+ * - Added R+T = Tab combo
+ * - Added F+G = Escape combo
+ * - Added H+J = Enter combo
+ * - Added Layer 2 with Voyager-style symbols (!@#$%^&*)
+ * - Right pinky L changed to CTRL (matching Voyager)
+ * - Optional: Uncomment bracket tap-dance if desired
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+// Layer definitions
+#define BASE 0
+#define EXT 1
+#define SYM 2
+#define SETTINGS 3
+// -----------------
+
+&sk {
+	// don't release mods on other mods presses
+	ignore-modifiers;
+};
+
+
+/ {
+	behaviors {
+		// Enables holding the first mod-tap key
+		// by performing a tap-release-hold sequence.
+		// To use it: "&qt KEYCODE1 KEYCODE2"
+		qt: quick_tap {
+			compatible = "zmk,behavior-hold-tap";
+			label = "QUICK_TAP";
+			#binding-cells = <2>;
+			flavor = "hold-preferred";
+			tapping-term-ms = <200>;
+			quick-tap-ms = <200>;
+			bindings = <&kp>, <&kp>;
+		};
+		mo_tog: behavior_mo_tog {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+			quick-tap-ms = <200>;
+            bindings = <&mo>, <&tog>;
+        };
+	};
+
+	macros {
+		// sometimes my device thinks a modifier is being held down
+		// pressing all modifiers fixes it.
+		unstick: unstick {
+			label = "ZM_unstick";
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <&kp LSHIFT &kp RSHIFT &kp LCTRL &kp RCTRL &kp LALT &kp RALT &kp LGUI &kp RGUI>;
+		};
+	};
+
+	combos {
+		compatible = "zmk,combos";
+
+		// Settings layer - both left thumb keys
+		combo_settings {
+			timeout-ms = <200>;
+			key-positions = <30 31>;
+			bindings = <&mo SETTINGS>;
+		};
+
+		// VOYAGER COMBOS
+		// Y + U = Backspace (common in typing flow)
+		combo_bspc {
+			timeout-ms = <50>;
+			key-positions = <5 6>;
+			bindings = <&kp BSPC>;
+		};
+
+		// R + T = Tab
+		combo_tab {
+			timeout-ms = <50>;
+			key-positions = <3 4>;
+			bindings = <&kp TAB>;
+		};
+
+		// F + G = Escape
+		combo_esc {
+			timeout-ms = <50>;
+			key-positions = <13 14>;
+			bindings = <&kp ESC>;
+		};
+
+		// H + J = Enter
+		combo_enter {
+			timeout-ms = <50>;
+			key-positions = <15 16>;
+			bindings = <&kp ENTER>;
+		};
+
+		// Optional: V + B = Toggle to SYM layer
+		// Uncomment if you want quick access to symbols layer
+		// combo_sym {
+		// 	timeout-ms = <50>;
+		// 	key-positions = <23 24>;
+		// 	bindings = <&tog SYM>;
+		// };
+	};
+
+	keymap {
+		compatible = "zmk,keymap";
+
+		// Base alpha layer
+		default_layer {
+			label = "Base";
+			bindings = <
+			&kp Q &kp W &kp E &kp R &kp T           &kp Y &kp U  &kp I     &kp O   &kp P
+			&mt LSHIFT A &mt LCTRL S &mt LALT D &kp F &kp G           &kp H &kp J  &mt RALT K &mt RCTRL L &mt RSHIFT SEMI
+			&kp Z &kp X &kp C &kp V &kp B           &kp N &kp M  &kp COMMA &kp DOT &kp SLASH
+							&mo_tog EXT EXT &qt LCMD SPACE           &qt RCMD SPACE &kp ENTER
+			>;
+		};
+
+		// Numbers, brackets, navigation (EXT)
+		ext_layer {
+			label = "Ext";
+			bindings = <
+			&kp N1 &kp N2 &kp N3 &kp N4 &kp N5		                           			&kp N6 &kp N7 &kp N8 &kp N9 &kp N0
+			&kp LSHIFT &kp GRAVE &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TAB  			&kp LEFT_ARROW &kp DOWN_ARROW &kp UP_ARROW &kp RIGHT_ARROW &kp RSHIFT
+			&kp LEFT_ALT &qt LEFT_CONTROL MINUS &kp SINGLE_QUOTE &kp EQUAL &kp BACKSLASH 	&kp ESC &kp BACKSPACE &kp DELETE &kp RIGHT_CONTROL &kp RIGHT_ALT
+																 &trans  &trans      &trans &trans
+			>;
+		};
+
+		// Symbols layer (Voyager-inspired)
+		// Access via: Hold EXT thumb, then tap it again to toggle, or map to combo
+		sym_layer {
+			label = "Sym";
+			bindings = <
+			&kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT                    &kp CARET &kp AMPS &kp STAR &kp MINUS &kp EQUAL
+			&kp TILDE &kp GRAVE &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE    &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp PAGE_UP
+			&kp LEFT_ALT &kp UNDER &kp LEFT_PARENTHESIS &kp RIGHT_PARENTHESIS &kp BACKSLASH    &kp ESC &kp BACKSPACE &kp DELETE &kp RIGHT_CONTROL &kp PAGE_DOWN
+			                                          &tog SYM &trans        &trans &trans
+			>;
+		};
+
+		// Settings layer
+		settings_layer {
+				label = "Settings";
+				bindings = <
+				&bootloader &none &none &bt BT_CLR &bt BT_SEL 0               &bt BT_SEL 3 &none &unstick &none &bootloader
+				&none &none &none &none      &bt BT_SEL 1 						  &bt BT_SEL 4 &none &none &none &none
+				&studio_unlock &none &none &none      &bt BT_SEL 2               &bt BT_SEL 5 &none &none &none &studio_unlock
+										&none &none                         &none &none
+				>;
+		};
+	};
+};
