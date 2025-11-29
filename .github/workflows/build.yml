@@ -1,8 +1,17 @@
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build:
+  build-standard:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    with:
+      build_matrix_path: build-standard.yaml
+      archive_name: firmware-standard
+
+  build-hybrid:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    with:
+      build_matrix_path: build-hybrid.yaml
+      archive_name: firmware-hybrid
 
   draw:
     uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main

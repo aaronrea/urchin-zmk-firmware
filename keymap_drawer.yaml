@@ -12,7 +12,19 @@ draw_config:
 parse_config:
   mark_alternate_layer_activators: true
   sticky_label: $$mdi:backup-restore$$
+  zmk_keyboard: urchin-hybrid
   zmk_combos:
     combo_settings:
       align: top
       offset: 0.5
+
+# Physical layout for urchin-hybrid (34-key split keyboard)
+# Layout: 3x5 column-stagger + 2 thumb keys per side
+layout:
+  qmk_keyboard: urchin-hybrid
+  qmk_layout: LAYOUT_split_3x5_2
+  layout:
+    - [0, 1, 2, 3, 4,    5, 6, 7, 8, 9]
+    - [10, 11, 12, 13, 14,    15, 16, 17, 18, 19]
+    - [20, 21, 22, 23, 24,    25, 26, 27, 28, 29]
+    - ["", "", "", 30, 31,    32, 33, "", "", ""]
