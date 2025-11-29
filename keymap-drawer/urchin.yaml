@@ -1,0 +1,112 @@
+layout: {zmk_keyboard: urchin}
+layers:
+  Base:
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Y
+  - U
+  - I
+  - O
+  - P
+  - {t: A, h: LSHIFT}
+  - {t: S, h: LCTRL}
+  - {t: D, h: LALT}
+  - F
+  - G
+  - H
+  - J
+  - {t: K, h: RALT}
+  - {t: L, h: RCTRL}
+  - {t: ;, h: RSHIFT}
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - N
+  - M
+  - ','
+  - .
+  - /
+  - {t: Mods, h: Mods}
+  - {t: SPACE, h: LCMD}
+  - {t: SPACE, h: RCMD}
+  - ENTER
+  Mods:
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  - '0'
+  - LSHIFT
+  - '`'
+  - '['
+  - ']'
+  - TAB
+  - LEFT ARROW
+  - DOWN ARROW
+  - UP ARROW
+  - RIGHT ARROW
+  - RSHIFT
+  - LEFT ALT
+  - {t: '-', h: LEFT CONTROL}
+  - '~'
+  - '='
+  - '|'
+  - ESC
+  - BACKSPACE
+  - DELETE
+  - RIGHT CONTROL
+  - RIGHT ALT
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Sett.:
+  - '&bootloader'
+  - '&studio_unlock'
+  - ''
+  - BT CLR
+  - {t: BT, h: '0'}
+  - {t: BT, h: '3'}
+  - ''
+  - '&unstick'
+  - '&studio_unlock'
+  - '&bootloader'
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: BT, h: '1'}
+  - {t: BT, h: '4'}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: BT, h: '2'}
+  - {t: BT, h: '5'}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {type: held}
+  - {type: held}
+  - ''
+  - ''
+combos:
+- p: [30, 31]
+  k: Sett.
+  a: top
+  o: 0.5
