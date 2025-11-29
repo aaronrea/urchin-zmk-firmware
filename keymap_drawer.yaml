@@ -1,0 +1,38 @@
+draw_config:
+  key_w: 60
+  key_h: 56
+  split_gap: 30
+  combo_w: 24
+  combo_h: 20
+  n_columns: 2
+  separate_combo_diagrams: true
+  inner_pad_w: 2
+  inner_pad_h: 2
+
+parse_config:
+  mark_alternate_layer_activators: true
+  sticky_label: $$mdi:backup-restore$$
+
+  # ZMK combos
+  zmk_combos:
+    combo_settings: "Settings"
+
+layout:
+  ortho_layout:
+    split: true
+    rows: 4
+    columns: 5
+    thumbs: 2
+
+  qmk_keyboard: urchin
+
+  # Define the Urchin layout (3x5+2 split)
+  layout_function: |
+    def urchin_layout(k):
+        return """
+        /* Urchin 3x5+2 Split Layout */
+        {k[0]}  {k[1]}  {k[2]}  {k[3]}  {k[4]}        {k[14]} {k[15]} {k[16]} {k[17]} {k[18]}
+        {k[5]}  {k[6]}  {k[7]}  {k[8]}  {k[9]}        {k[19]} {k[20]} {k[21]} {k[22]} {k[23]}
+        {k[10]} {k[11]} {k[12]} {k[13]} {k[24]}       {k[25]} {k[26]} {k[27]} {k[28]} {k[29]}
+                        {k[30]} {k[31]}               {k[32]} {k[33]}
+        """
