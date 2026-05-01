@@ -1,6 +1,6 @@
-# Urchin Keymap
+# Urchin Keymap (Hybrid)
 
-34-key split. 3 layers: **Base**, **Mods**, **Settings**.
+34-key split. 4 layers: **Base**, **Ext**, **Sym**, **Settings**.
 
 ## Base (Layer 0)
 
@@ -19,10 +19,10 @@
 ```
 
 - Home-row mods on `ASDF` / `JKL;` (`LSHIFT LCTRL LALT` ↔ `RALT RCTRL RSHIFT`)
-- Left inner thumb: hold = momentary **Mods**, tap = toggle **Mods**
+- Left inner thumb: hold = momentary **Ext**, tap = toggle **Ext**
 - Thumb `⌘`: hold = `LCMD`/`RCMD`, tap = Space
 
-## Mods (Layer 1)
+## Ext (Layer 1)
 
 ```
 ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
@@ -30,14 +30,33 @@
 ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
 │ ⇧ │ ` │ [ │ ] │Tab│   │ ← │ ↓ │ ↑ │ → │ ⇧ │
 ├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
-│ ⌥ │⌃ -│ ~ │ = │ | │   │Esc│Bsp│Del│ ⌃ │ ⌥ │
+│ ⌥ │⌃ -│ ' │ = │ \ │   │Esc│Bsp│Del│ ⌃ │ ⌥ │
 └───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
             ┌───┬───┐   ┌───┬───┐
             │ — │ — │   │ — │ — │
             └───┴───┘   └───┴───┘
 ```
 
-## Settings (Layer 2)
+## Sym (Layer 2)
+
+Voyager-inspired symbols + nav.
+
+```
+┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
+│ ! │ @ │ # │ $ │ % │   │ ^ │ & │ * │ - │ = │
+├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+│ ~ │ ` │ { │ } │ | │   │ ← │ ↓ │ ↑ │ → │PgU│
+├───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┤
+│ ⌥ │ _ │ ( │ ) │ \ │   │Esc│Bsp│Del│ ⌃ │PgD│
+└───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┘
+            ┌───┬───┐   ┌───┬───┐
+            │tog│ — │   │ — │ — │
+            └───┴───┘   └───┴───┘
+```
+
+Left inner thumb toggles **Sym** off.
+
+## Settings (Layer 3)
 
 ```
 ┌───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┐
@@ -56,18 +75,20 @@ Legend: `BLD` bootloader · `STU` studio_unlock · `CLR` BT_CLR · `USK` unstick
 
 ## Combos
 
-| Keys                           | Positions | Action                  |
-| ------------------------------ | --------- | ----------------------- |
-| Both left thumbs (inner+outer) | `30 31`   | Momentary **Settings** |
-
-Combo timeout: 200 ms.
+| Combo    | Keys             | Positions | Action                 | Timeout |
+| -------- | ---------------- | --------- | ---------------------- | ------- |
+| settings | both left thumbs | `30 31`   | Momentary **Settings** | 200 ms  |
+| tab      | R + T            | `3 4`     | Tab                    | 50 ms   |
+| bspc     | Y + U            | `5 6`     | Backspace              | 50 ms   |
+| esc      | F + G            | `13 14`   | Escape                 | 50 ms   |
+| enter    | H + J            | `15 16`   | Enter                  | 50 ms   |
 
 ## Build Snippets
 
 Zephyr snippets applied at build time (see `build.yaml`):
 
-| Snippet                | Applied to                          | Purpose                                            |
-| ---------------------- | ----------------------------------- | -------------------------------------------------- |
+| Snippet               | Applied to                         | Purpose                                           |
+| --------------------- | ---------------------------------- | ------------------------------------------------- |
 | `studio-rpc-usb-uart` | All firmware builds (left + right) | Routes ZMK Studio RPC over the USB CDC ACM (UART) |
 
 Paired with `-DCONFIG_ZMK_STUDIO=y` so the keyboard exposes its layout to ZMK Studio over USB.
@@ -81,4 +102,4 @@ Paired with `-DCONFIG_ZMK_STUDIO=y` so the keyboard exposes its layout to ZMK St
 
 ## Source
 
-`config/urchin.keymap` in [`urchin-zmk-firmware`](https://github.com/aaronrea/urchin-zmk-firmware).
+`config/urchin-hybrid.keymap` in [`urchin-zmk-firmware`](https://github.com/aaronrea/urchin-zmk-firmware).
