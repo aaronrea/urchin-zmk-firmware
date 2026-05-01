@@ -62,6 +62,16 @@ Legend: `BLD` bootloader · `STU` studio_unlock · `CLR` BT_CLR · `USK` unstick
 
 Combo timeout: 200 ms.
 
+## Build Snippets
+
+Zephyr snippets applied at build time (see `build.yaml`):
+
+| Snippet                | Applied to                          | Purpose                                            |
+| ---------------------- | ----------------------------------- | -------------------------------------------------- |
+| `studio-rpc-usb-uart` | All firmware builds (left + right) | Routes ZMK Studio RPC over the USB CDC ACM (UART) |
+
+Paired with `-DCONFIG_ZMK_STUDIO=y` so the keyboard exposes its layout to ZMK Studio over USB.
+
 ## Custom Behaviors
 
 - `qt` — hold-preferred mod-tap (200 ms term, 200 ms quick-tap)
