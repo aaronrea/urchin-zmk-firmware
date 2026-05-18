@@ -59,7 +59,7 @@
 			bindings = <&kp>, <&kp>;
 		};
 
-		// Right-hand homerow mod. Mirror of hml — only fires when
+		// Right-hand homerow mod. Mirror of hml - only fires when
 		// paired with a left-hand key.
 		hmr: homerow_mod_right {
 			compatible = "zmk,behavior-hold-tap";
