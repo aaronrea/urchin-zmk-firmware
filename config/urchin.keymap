@@ -37,12 +37,41 @@
 		};
 		mo_tog: behavior_mo_tog {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>; // Specifies two parameters for this behavior
-            flavor = "hold-preferred"; // Adjust as needed (tap-preferred, balanced)
-            tapping-term-ms = <200> ; // Adjust tap-hold delay
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
 			quick-tap-ms = <200>;
-            bindings = <&mo>, <&tog>; // Hold action is &mo, Tap action is &tog
+            bindings = <&mo>, <&tog>;
         };
+
+		// Left-hand homerow mod. Only triggers when paired with a
+		// right-hand key (cross-hand), after a 150ms idle gap, and
+		// past a 200ms hold. Tapping or quick-rolls stay as letters.
+		hml: homerow_mod_left {
+			compatible = "zmk,behavior-hold-tap";
+			#binding-cells = <2>;
+			flavor = "balanced";
+			tapping-term-ms = <200>;
+			quick-tap-ms = <175>;
+			require-prior-idle-ms = <150>;
+			hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29 32 33>;
+			hold-trigger-on-release;
+			bindings = <&kp>, <&kp>;
+		};
+
+		// Right-hand homerow mod. Mirror of hml - only fires when
+		// paired with a left-hand key.
+		hmr: homerow_mod_right {
+			compatible = "zmk,behavior-hold-tap";
+			#binding-cells = <2>;
+			flavor = "balanced";
+			tapping-term-ms = <200>;
+			quick-tap-ms = <175>;
+			require-prior-idle-ms = <150>;
+			hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 30 31>;
+			hold-trigger-on-release;
+			bindings = <&kp>, <&kp>;
+		};
 	};
 
 	macros {
@@ -73,10 +102,10 @@
 		default_layer {
 			label = "Base";
 			bindings = <
-			&kp Q &kp W &kp E &kp R &kp T           &kp Y &kp U  &kp I     &kp O   &kp P 
-			&mt LSHIFT A &mt LCTRL S &mt LALT D &kp F &kp G           &kp H &kp J  &mt RALT K &mt RCTRL L &mt RSHIFT SEMI
-			&kp Z &kp X &kp C &kp V &kp B           &kp N &kp M  &kp COMMA &kp DOT &kp SLASH
-							&mo_tog 1 1 &qt LCMD SPACE           &qt RCMD SPACE &kp ENTER
+			&kp Q &kp W &kp E &kp R &kp T                                  &kp Y &kp U  &kp I     &kp O   &kp P
+			&hml LSHIFT A &hml LCTRL S &hml LALT D &kp F &kp G              &kp H &kp J  &hmr RALT K &hmr RCTRL L &hmr RSHIFT SEMI
+			&kp Z &kp X &kp C &kp V &kp B                                  &kp N &kp M  &kp COMMA &kp DOT &kp SLASH
+							&mo EXT &kp SPACE                              &kp SPACE &kp ENTER
 			>;
 		};
 
@@ -87,7 +116,7 @@
 			&kp N1 &kp N2 &kp N3 &kp N4 &kp N5		                           			&kp N6 &kp N7 &kp N8 &kp N9 &kp N0
 			&kp LSHIFT &kp GRAVE &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TAB  			&kp LEFT_ARROW &kp DOWN_ARROW &kp UP_ARROW &kp RIGHT_ARROW &kp RSHIFT
 			&kp LEFT_ALT &qt LEFT_CONTROL MINUS &kp TILDE &kp EQUAL &kp PIPE 	&kp ESC &kp BACKSPACE &kp DELETE &kp RIGHT_CONTROL &kp RIGHT_ALT
-																 &trans  &trans      &trans &trans
+																 &trans  &kp LGUI      &kp RGUI &trans
 			>;
 		};
 
