@@ -1,3 +1,13 @@
+# Pending — sort out next time I'm at a machine and can flash
+
+- Branch `claude/fix-keyboard-key-presses-8LMMY` has the tighter homerow-mod tuning (cross-hand, 150 ms idle, 175 ms quick-tap) and the hybrid build path fix (`ZMK_CONFIG`). Merge and flash both halves.
+- Reconcile the two thumb-behavior lines in the Base layer notes below: doc claims tap-toggle **Ext** on the left inner thumb and CMD mod-tap on the other thumbs, but the actual bindings in `config/urchin-hybrid.keymap` are plain `&mo EXT`, `SPACE`, `SPACE`, `ENTER`. Either fix the doc or change the keymap.
+- Decide whether to strip personal BT slot labels (iPhone / tekto / work) now that this doc lives in a public repo.
+- Confirm which build file is the "real" one — `build.yaml` vs `build-standard.yaml` vs `build-hybrid.yaml` — and delete the stale ones.
+- Remove this whole "Pending" section once the above are sorted (so it doesn't ship to Obsidian on the next copy).
+
+---
+
 # Urchin Keyboard Bluetooth Pairing
 
 ## Enter Settings Layer
