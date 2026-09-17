@@ -17,9 +17,6 @@ parse_config:
     combo_settings:
       align: top
       offset: 0.5
-    combo_fn:
-      align: top
-      offset: 0.5
     combo_sym:
       align: bottom
       offset: 0.5
