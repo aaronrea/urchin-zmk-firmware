@@ -17,14 +17,18 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 | --- | --- |
 | Base | default |
 | Mods / Ext | hold left outer thumb (tap it to lock the layer on) |
-| Settings | hold Mods, then positions 4+5 (the `5` and `6` keys) |
+| Settings | hold Mods, tap positions 4+5, release (latched) |
 | Globe | hold right outer thumb |
 
-The Settings combo is deliberately awkward: two hands, two steps, and pinned to
-the Mods layer so it cannot fire from base at all. Positions 4+5 are a
-cross-hand pair, so no roll can produce them. Because holding 4+5 ties up both
-index fingers, the whole Bluetooth block moved out to the middle-finger columns
--- positions 4, 5, 14, 15, 24 and 25 on that layer are `&none` on purpose.
+Settings is latched rather than held: hold Mods, tap the 4+5 combo, and let go.
+Both hands come free, so every key on the layer stays reachable and the
+Bluetooth block keeps its original positions. **Any thumb returns you to base**
+-- all four are `&to BASE`, which also clears a locked Mods layer on the way.
+
+The combo itself is deliberately awkward to hit: two hands, two steps, pinned to
+the Mods layer so it cannot fire from base at all, and 4+5 is a cross-hand pair
+that no same-hand roll can produce. The layer it guards carries `&bootloader`
+and `&bt BT_CLR`, so that is the point.
 
 There is no Sym layer. Everything it held was reachable as shift + something on
 the Mods layer -- 28 of its 30 keys exactly, and the two that were not
