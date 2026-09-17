@@ -8,7 +8,7 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 ## Keymap
 - QWERTY with hrm;  {layer2, cmd/spc, cmd/spc, globe/enter}
 - num, sym, vim arrow, esc, del, etc {-> l1 tap/hold}
-- settings layer from duckyb (bt, fw, studio) {-> LH combo}
+- settings layer from duckyb (bt, fw, studio) {-> mods + 5&6}
 - globe layer: Apple's Globe shortcuts as macros {-> RH outer thumb hold}
 
 ### Layer access
@@ -17,8 +17,14 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 | --- | --- |
 | Base | default |
 | Mods / Ext | hold left outer thumb (tap it to lock the layer on) |
-| Settings | hold both left thumb keys |
+| Settings | hold Mods, then positions 4+5 (the `5` and `6` keys) |
 | Globe | hold right outer thumb |
+
+The Settings combo is deliberately awkward: two hands, two steps, and pinned to
+the Mods layer so it cannot fire from base at all. Positions 4+5 are a
+cross-hand pair, so no roll can produce them. Because holding 4+5 ties up both
+index fingers, the whole Bluetooth block moved out to the middle-finger columns
+-- positions 4, 5, 14, 15, 24 and 25 on that layer are `&none` on purpose.
 
 There is no Sym layer. Everything it held was reachable as shift + something on
 the Mods layer -- 28 of its 30 keys exactly, and the two that were not
