@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  html { color-scheme: light dark; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Urchin Keymap</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+  :root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #f6f8fb;
+    --key: #e2e8ef;
+    --key-line: #c2ccd9;
+    --key-shadow: rgba(24, 32, 44, .09);
+    --ink: #18202c;
+    --ink-2: #55627a;
+    --ink-3: #8a96a8;
+    --accent: #8f5405;
+    --accent-line: #cf8718;
+    --accent-fill: #fdf2e1;
+    --globe: #0a6268;
+    --globe-line: #3d9aa0;
+    --globe-fill: #dcf0f1;
+    --danger: #972c25;
+    --danger-line: #c2695f;
+    --danger-fill: #fbe6e3;
+    --rule: #d4dbe4;
+    --shadow: 0 1px 2px rgba(24,32,44,.05), 0 8px 24px -14px rgba(24,32,44,.22);
+
+    --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e131a;
+      --surface: #161d26;
+      --surface-2: #1a222d;
+      --key: #212a37;
+      --key-line: #374555;
+      --key-shadow: rgba(0,0,0,.4);
+      --ink: #e7ecf3;
+      --ink-2: #9cabbd;
+      --ink-3: #6a788a;
+      --accent: #eeb15a;
+      --accent-line: #a97c26;
+      --accent-fill: #2b2214;
+      --globe: #62cdd4;
+      --globe-line: #2c7b81;
+      --globe-fill: #0f2a2d;
+      --danger: #f2948e;
+      --danger-line: #8f3c36;
+      --danger-fill: #2f1819;
+      --rule: #29333f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e131a;
+    --surface: #161d26;
+    --surface-2: #1a222d;
+    --key: #212a37;
+    --key-line: #374555;
+    --key-shadow: rgba(0,0,0,.4);
+    --ink: #e7ecf3;
+    --ink-2: #9cabbd;
+    --ink-3: #6a788a;
+    --accent: #eeb15a;
+    --accent-line: #a97c26;
+    --accent-fill: #2b2214;
+    --globe: #62cdd4;
+    --globe-line: #2c7b81;
+    --globe-fill: #0f2a2d;
+    --danger: #f2948e;
+    --danger-line: #8f3c36;
+    --danger-fill: #2f1819;
+    --rule: #29333f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -16px rgba(0,0,0,.8);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-block: 34px 60px;
+  }
+
+  /* ---------- masthead ---------- */
+  .mast { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+  }
+  h1 {
+    font-family: var(--cond); font-weight: 600; font-size: clamp(30px, 7vw, 44px);
+    line-height: 1.04; margin: 0; letter-spacing: -.005em; text-wrap: balance;
+  }
+  .dek { margin: 0; color: var(--ink-2); max-width: 60ch; }
+  .branch {
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-2);
+    background: var(--surface); border: 1px solid var(--rule);
+    padding: 3px 8px; border-radius: 4px; align-self: flex-start;
+    word-break: break-all;
+  }
+
+  /* ---------- how to read ---------- */
+  .howto {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 16px; margin-bottom: 8px; box-shadow: var(--shadow);
+  }
+  .howto h2 {
+    font-family: var(--cond); font-size: 13px; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--ink-2); margin: 0 0 12px; font-weight: 600;
+  }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 12px 18px; }
+  .lg { display: flex; gap: 10px; align-items: flex-start; }
+  .lg p { margin: 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+  .lg b { color: var(--ink); font-weight: 600; display: block; font-size: 13px; }
+
+  /* ---------- controls ---------- */
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 18px 0 22px; }
+  .seg { display: inline-flex; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 3px; gap: 3px; }
+  .seg button {
+    font-family: var(--sans); font-size: 12.5px; font-weight: 500; color: var(--ink-2);
+    background: none; border: 0; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--accent-fill); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .seg button:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 1px; }
+  .hint { font-size: 12px; color: var(--ink-3); }
+
+  /* ---------- layer ---------- */
+  .layer { margin-bottom: 34px; }
+  .lhead { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .lname { font-family: var(--cond); font-weight: 600; font-size: 23px; letter-spacing: -.005em; }
+  .lidx { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+  .tag {
+    font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 999px;
+  }
+  .tag.new { color: var(--accent); background: var(--accent-fill); box-shadow: inset 0 0 0 1px var(--accent-line); }
+  .access {
+    display: flex; gap: 8px; align-items: baseline; margin: 0 0 14px;
+    font-size: 13px; color: var(--ink-2);
+  }
+  .access .ak {
+    font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-3); flex: none; padding-top: 1px;
+  }
+  .access b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- board ---------- */
+  .scroller { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 4px; }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) 28px repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    min-width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: var(--shadow);
+  }
+  .key {
+    position: relative;
+    background: var(--key);
+    border: 1px solid var(--key-line);
+    border-radius: 6px;
+    min-height: 54px;
+    padding: 5px 4px 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1px;
+    box-shadow: inset 0 -1.5px 0 var(--key-shadow);
+    transition: opacity .18s ease;
+  }
+  .k-hold {
+    font-family: var(--mono); font-size: 10px; font-weight: 600; line-height: 1.1;
+    color: var(--ink-3); letter-spacing: .02em;
+  }
+  .k-tap {
+    font-family: var(--mono); font-size: 14px; font-weight: 500; line-height: 1.15;
+    color: var(--ink); text-align: center; word-break: break-word;
+  }
+  .k-tap.sm { font-size: 11px; }
+  .k-cap { font-size: 9.5px; line-height: 1.1; color: var(--ink-3); text-align: center; }
+  .k-pos {
+    position: absolute; top: 2px; right: 3px;
+    font-family: var(--mono); font-size: 8px; color: var(--ink-3); opacity: .5;
+  }
+
+  .key.is-new { border-color: var(--accent-line); background: var(--accent-fill); }
+  .key.is-new .k-tap { color: var(--accent); }
+  .key.is-tuned { border-color: var(--accent-line); border-style: dashed; }
+  .key.is-globe { border-color: var(--globe-line); background: var(--globe-fill); }
+  .key.is-globe .k-tap { color: var(--globe); font-size: 16px; }
+  .key.is-globe .k-hold { color: var(--globe); }
+  .key.is-danger { border-color: var(--danger-line); background: var(--danger-fill); }
+  .key.is-danger .k-tap { color: var(--danger); }
+  .key.is-layer .k-tap { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+  .key.is-layer { border-style: solid; border-color: var(--ink-3); background: var(--surface-2); }
+  .key.is-trans, .key.is-none { background: var(--surface-2); border-style: dashed; }
+  .key.is-trans .k-tap, .key.is-none .k-tap { color: var(--ink-3); font-size: 13px; }
+
+  .board.only-changes .key:not(.is-new):not(.is-tuned) { opacity: .18; }
+  .board.all-new .key { opacity: 1 !important; }
+
+  /* ---------- notes ---------- */
+  .notes { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .notes li { display: flex; gap: 9px; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+  .notes .pos {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 600; color: var(--accent);
+    background: var(--accent-fill); border-radius: 4px; padding: 1px 5px;
+    flex: none; align-self: flex-start; margin-top: 1.5px; min-width: 26px; text-align: center;
+  }
+  .notes .pos.q { color: var(--ink-3); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--rule); }
+  .notes strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: .88em;
+    background: var(--surface-2); border: 1px solid var(--rule);
+    padding: .5px 4px; border-radius: 3px; color: var(--ink);
+  }
+
+  /* ---------- combos ---------- */
+  .tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 13px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule); }
+  thead th {
+    font-family: var(--cond); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .09em; color: var(--ink-3);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.k { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+  td.st { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+  td.st.new { color: var(--accent); }
+  td.st.tuned { color: var(--ink-2); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--globe-line);
+    border-radius: 0 10px 10px 0; padding: 16px 18px; margin: 30px 0 0;
+  }
+  .callout h3 { font-family: var(--cond); font-size: 15px; margin: 0 0 8px; font-weight: 600; }
+  .callout p { margin: 0 0 9px; font-size: 13.5px; color: var(--ink-2); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  h2.sec {
+    font-family: var(--cond); font-weight: 600; font-size: 23px; margin: 0 0 4px;
+  }
+  .seclede { margin: 0 0 14px; font-size: 13px; color: var(--ink-2); max-width: 62ch; }
+  hr.div { border: 0; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .foot { margin-top: 34px; font-size: 12px; color: var(--ink-3); }
+  .foot p { margin: 0 0 6px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow">Urchin · 34-key split · ZMK v0.3.0</div>
+    <h1>Urchin Keymap</h1>
+    <p class="dek">All four layers after the Globe work, with each changed key marked. Positions are the ZMK matrix numbers — the same ones the combos and <code>hold-trigger-key-positions</code> refer to.</p>
+    <div class="branch">config/urchin-hybrid.keymap @ claude/keymap-mobile-modifiers-tujc6z</div>
+  </header>
+
+  <section class="howto">
+    <h2>Reading a key</h2>
+    <div class="legend">
+      <div class="lg">
+        <div class="scroller" style="flex:none"><div class="board" style="min-width:0;grid-template-columns:56px;padding:6px;border-radius:8px;box-shadow:none">
+          <div class="key" style="min-height:48px"><span class="k-pos">10</span><span class="k-hold">⇧</span><span class="k-tap">A</span></div>
+        </div></div>
+        <p><b>Hold above, tap below</b>The small top line is what <em>holding</em> does; the big legend is what <em>tapping</em> does.</p>
+      </div>
+      <div class="lg">
+        <div class="scroller" style="flex:none"><div class="board" style="min-width:0;grid-template-columns:56px;padding:6px;border-radius:8px;box-shadow:none">
+          <div class="key is-new" style="min-height:48px"><span class="k-pos">22</span><span class="k-tap">'</span></div>
+        </div></div>
+        <p><b>Solid amber</b>Different key than before — this position now sends something else.</p>
+      </div>
+      <div class="lg">
+        <div class="scroller" style="flex:none"><div class="board" style="min-width:0;grid-template-columns:56px;padding:6px;border-radius:8px;box-shadow:none">
+          <div class="key is-tuned" style="min-height:48px"><span class="k-pos">11</span><span class="k-hold">⌃</span><span class="k-tap">S</span></div>
+        </div></div>
+        <p><b>Dashed amber</b>Same output, retuned behavior — the timing and flavor changed, not the legend.</p>
+      </div>
+      <div class="lg">
+        <div class="scroller" style="flex:none"><div class="board" style="min-width:0;grid-template-columns:56px;padding:6px;border-radius:8px;box-shadow:none">
+          <div class="key is-trans" style="min-height:48px"><span class="k-pos">30</span><span class="k-tap">▽</span></div>
+        </div></div>
+        <p><b>▽ falls through</b><code>&amp;trans</code> — the key below on the next active layer down. <code>·</code> is <code>&amp;none</code>, dead.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Key filter">
+      <button type="button" id="btn-all" aria-pressed="true">All keys</button>
+      <button type="button" id="btn-chg" aria-pressed="false">Changes only</button>
+    </div>
+    <span class="hint" id="hint">Showing every binding.</span>
+  </div>
+
+  <div id="layers"></div>
+
+  <hr class="div">
+
+  <h2 class="sec">Combos</h2>
+  <p class="seclede">The four Voyager combos are pinned to <code>layers = &lt;BASE&gt;</code>, and Settings to <code>&lt;EXT&gt;</code>. Without that they ran on whichever layer was active, so on the Mods layer typing <code>45</code> fired Tab and <code>67</code> fired Backspace. Positions 4 and 5 now carry two combos each, on different layers — they never contend.</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Keys</th><th>Positions</th><th>Does</th><th>Status</th></tr>
+      </thead>
+      <tbody id="combos"></tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <h3>Why the shortcuts are macros</h3>
+    <p>Apple's Globe shortcuts are documented for a real Apple keyboard. ZMK cannot hold <code>GLOBE</code> down as a modifier, so each one is emitted as a macro instead — press <code>GLOBE</code>, tap the key, release <code>GLOBE</code>. Same HID traffic as a real chord, one keypress for you.</p>
+    <p>And there is no separate Fn key to map: Fn and Globe are the same physical key on Apple keyboards, and the real one is AppleVendor Top Case page <code>0xFF</code> usage <code>0x03</code>, gated on Apple's own vendor ID. ZMK cannot send it. What it sends is consumer usage <code>0x029D</code>, which covers keyboard/emoji switching and <em>some</em> Globe chords — test <code>Globe+H</code> on the iPad before trusting it.</p>
+    <p>There is no Sym layer any more: 28 of its 30 keys were reachable as shift + something on the Mods layer, which is why it never had an activator in the first place. <code>PgUp</code> and <code>PgDn</code> were the exceptions and moved here.</p>
+  </div>
+
+  <div class="foot">
+    <p>The standard keymap (<code>config/urchin.keymap</code>) is now the same four layers; it just lacks the five Voyager combos, so its only combo is Settings.</p>
+    <p>Both files pass <code>dtc</code> with all layers at 34 bindings. Behavior on hardware is unverified.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var T = { k: "trans" }, N = { k: "none" };
+  function t(x) { return { t: x }; }
+  function row(arr) { return arr.map(function (x) { return typeof x === "string" ? t(x) : x; }); }
+
+  var LAYERS = [
+    {
+      name: "Base", idx: 0,
+      access: "Default — always on.",
+      keys: row([
+        "Q","W","E","R","T","Y","U","I","O","P",
+        { t:"A", h:"⇧", s:"tuned" }, { t:"S", h:"⌃", s:"tuned" }, { t:"D", h:"⌥", s:"tuned" },
+        "F","G","H","J",
+        { t:"K", h:"⌥", s:"tuned" }, { t:"L", h:"⌃", s:"tuned" }, { t:";", h:"⇧", s:"tuned" },
+        "Z","X","C","V","B","N","M",",",".","/",
+        { t:"lock", h:"MODS", k:"layer" },
+        { t:"SPC", h:"⌘", k:"sm", s:"tuned" },
+        { t:"SPC", h:"⌘", k:"sm", s:"tuned" },
+        { t:"ENT", h:"GLOBE", s:"new", k:"globe" }
+      ]),
+      notes: [
+        { p:"33", h:"Globe layer key, new.", b:"Hold it for the Globe layer, tap it for Enter. <code>&amp;glt GLB ENTER</code> is hold-preferred with no prior-idle window, so the layer engages the instant the next key goes down. One thumb, no combo." },
+        { p:"10–12<br>17–19", h:"Home-row mods, retuned.", b:"<code>&amp;mt</code> defaults to hold-preferred with no positional guard, so rolling <code>as</code> sent <code>⇧S</code> and <code>sd</code> sent <code>⌃D</code>. Now <code>&amp;hml</code>/<code>&amp;hmr</code>: balanced, positional, with a prior-idle guard." },
+        { p:"31 32", h:"Space thumbs, retuned.", b:"Same reason — rolling off space into the next letter was firing <code>⌘W</code>." },
+        { p:"30", h:"Unchanged, and still the one to watch.", b:"An isolated tap <em>locks</em> the Mods layer on. That is the “suddenly typing numbers” accident; swap <code>&amp;mo_tog EXT EXT</code> for <code>&amp;mo EXT</code> if it keeps biting." }
+      ]
+    },
+    {
+      name: "Mods", idx: 1,
+      access: "Hold the left outer thumb (30). Tapping it locks the layer on.",
+      keys: row([
+        "1","2","3","4","5","6","7","8","9","0",
+        "⇧", { t:"`", c:"grave" },"[","]","⇥","←","↓","↑","→","⇧",
+        "⌥", { t:"−", h:"⌃", s:"tuned" }, { t:"'", c:"quote", s:"new" }, "=", { t:"\\", c:"bslash", s:"new" },
+        { t:"ESC", k:"sm" },"⌫","⌦","⌃", { t:"🌐", h:"sticky", s:"new", k:"globe" },
+        T, T, T, T
+      ]),
+      notes: [
+        { p:"22 24", h:"Filled two real holes.", b:"This keymap had <strong>no apostrophe and no backslash at all</strong> — no contractions. The slots went to <code>~</code> and <code>|</code>, which are just shifted <code>`</code> and <code>\\</code>, both already on this layer. <code>~</code> is now ⇧+position 11." },
+        { p:"29", h:"Sticky Globe, was Right Alt.", b:"Tap it, release this layer, then tap a letter on the base layer. Alt for the right-hand arrows is better pressed with the left hand anyway — position 20." },
+        { p:"21", h:"Retuned.", b:"Was hold-preferred, so typing <code>-5</code> quickly fired <code>⌃5</code>." },
+        { p:"4 5", h:"Settings lives behind these now.", b:"Tap both while holding Mods, then release — the layer latches on. See the Settings layer below." },
+        { p:"32", h:"⌘ lives here.", b:"Falls through to the base thumb, so <code>⌘←</code> / <code>⌘→</code> give start and end of line on iOS." }
+      ]
+    },
+    {
+      name: "Settings", idx: 3,
+      access: "Hold Mods, tap positions 4+5, release. The layer <em>latches</em> on — any thumb returns you to base.",
+      state: "new",
+      keys: row([
+        { t:"BOOT", k:"danger" }, { t:"STUDIO", k:"sm" }, N, N, { t:"BT 0", k:"sm" },
+        { t:"BT 3", k:"sm" }, N, { t:"UNSTICK", k:"sm" }, { t:"STUDIO", k:"sm" }, { t:"BOOT", k:"danger" },
+        N, N, N, N, { t:"BT 1", k:"sm" }, { t:"BT 4", k:"sm" }, N, N, N, N,
+        N, N, N, { t:"BT CLR", k:"danger" }, { t:"BT 2", k:"sm" }, { t:"BT 5", k:"sm" }, N, N, N, N,
+        { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }
+      ]),
+      notes: [
+        { p:"30–33", h:"Any thumb gets you out.", b:"All four are <code>&amp;to BASE</code>, which clears every other layer on the way — including a Mods layer left locked by a stray <code>mo_tog</code> tap. The layer is latched, so all four thumbs are free to be exits." },
+        { p:"4 5", h:"The combo is a tap, not a hold.", b:"Hold Mods, tap 4+5, release. <code>&amp;tog</code> latches the layer, so both hands come free and every key here stays reachable — which is why the Bluetooth block keeps its original spots." },
+        { p:"—", h:"Hard to reach by accident, on purpose.", b:"Cross-hand pair, 50 ms window, prior-idle guard, and pinned to the Mods layer so it cannot fire from base. It also cannot retrigger from inside Settings, since Settings then outranks Mods as the highest active layer." },
+        { p:"23", h:"BT CLR moved off position 3.", b:"It used to sit directly beside <code>BT_SEL 0</code>, and it unpairs the active profile on a single slip." }
+      ]
+    },
+    {
+      name: "Globe", idx: 3, state: "new",
+      access: "Hold the right outer thumb (33). One thumb, from the base layer.",
+      keys: row([
+        N, N, { t:"E", h:"GLOBE", c:"emoji" }, N, N,
+        { t:"←", h:"⌃GLOBE", c:"tile" }, { t:"↓", h:"⌃GLOBE", c:"tile" }, { t:"↑", h:"⌃GLOBE", c:"tile" }, { t:"→", h:"⌃GLOBE", c:"tile" }, N,
+        { t:"A", h:"GLOBE", c:"dock" }, N, { t:"D", h:"GLOBE", c:"dictate" }, { t:"F", h:"GLOBE", c:"full scr" }, N,
+        { t:"H", h:"GLOBE", c:"home" }, { t:"PgDn", k:"sm" }, { t:"PgUp", k:"sm" }, { t:"VOL +", k:"sm" }, { t:"🌐", k:"globe", c:"plain" },
+        { t:"A", h:"GLOBE⇧", c:"app libr" }, N, { t:"C", h:"GLOBE", c:"ctrl ctr" }, N, N,
+        { t:"N", h:"GLOBE", c:"lock scr" }, { t:"M", h:"GLOBE", c:"menu bar" }, { t:"MUTE", k:"sm" }, { t:"VOL −", k:"sm" }, N,
+        N, N, T, { t:"▽", k:"trans", c:"held" }
+      ]),
+      notes: [
+        { p:"—", h:"Every shortcut sits on the key it is named after.", b:"Hold the Globe thumb and press the letter you would press on a Magic Keyboard. The layer is invisible to muscle memory — <code>Globe+H</code> really is the H key." },
+        { p:"—", h:"Each one is a macro, not a chord.", b:"ZMK cannot hold <code>GLOBE</code> as a modifier, so <code>&amp;gk X</code> presses <code>GLOBE</code>, taps the key and releases <code>GLOBE</code>, spaced 30 ms so the consumer report lands first. <code>&amp;gsk</code> adds Shift, <code>&amp;cgk</code> adds Control." },
+        { p:"16 17", h:"PgDn and PgUp, rescued from Sym.", b:"On the same columns as ↓ and ↑ on the Mods layer. They were the only two Sym keys not reachable as shift + something." }
+      ]
+    }
+  ];
+
+  var COMBOS = [
+    { k:"Mods + 5 and 6", p:"4 + 5", d:"Settings layer (latched)", s:"new", why:"cross-hand, Mods layer only — tap and release, any thumb exits" },
+    { k:"Y + U", p:"5 + 6", d:"Backspace", s:"tuned", why:"base-layer only — fired on “67” before" },
+    { k:"R + T", p:"3 + 4", d:"Tab", s:"tuned", why:"base-layer only — fired on “45” before" },
+    { k:"F + G", p:"13 + 14", d:"Escape", s:"tuned", why:"base-layer only" },
+    { k:"H + J", p:"15 + 16", d:"Enter", s:"tuned", why:"base-layer only — fired on ←↓ before" }
+  ];
+
+  // thumb positions map to grid columns 4, 5, 7, 8
+  var THUMB_COL = { 30: 4, 31: 5, 32: 7, 33: 8 };
+
+  function keyEl(k, pos, layerIsNew) {
+    var el = document.createElement("div");
+    var cls = ["key"];
+    if (!layerIsNew && k.s === "new") cls.push("is-new");
+    if (!layerIsNew && k.s === "tuned") cls.push("is-tuned");
+    if (k.k === "globe") cls.push("is-globe");
+    if (k.k === "danger") cls.push("is-danger");
+    if (k.k === "layer") cls.push("is-layer");
+    if (k.k === "trans") cls.push("is-trans");
+    if (k.k === "none") cls.push("is-none");
+    el.className = cls.join(" ");
+
+    var p = document.createElement("span");
+    p.className = "k-pos"; p.textContent = pos;
+    el.appendChild(p);
+
+    if (k.h) {
+      var h = document.createElement("span");
+      h.className = "k-hold"; h.textContent = k.h;
+      el.appendChild(h);
+    }
+    var tp = document.createElement("span");
+    tp.className = "k-tap" + (k.k === "sm" ? " sm" : "");
+    tp.textContent = k.k === "trans" ? "▽" : (k.k === "none" ? "·" : (k.t || ""));
+    el.appendChild(tp);
+
+    if (k.c) {
+      var c = document.createElement("span");
+      c.className = "k-cap"; c.textContent = k.c;
+      el.appendChild(c);
+    }
+
+    // row / column placement
+    if (pos >= 30) {
+      el.style.gridRow = "4";
+      el.style.gridColumn = String(THUMB_COL[pos]);
+    } else {
+      var r = Math.floor(pos / 10) + 1;
+      var c2 = pos % 10;
+      el.style.gridRow = String(r);
+      el.style.gridColumn = String(c2 < 5 ? c2 + 1 : c2 + 2);
+    }
+    return el;
+  }
+
+  var host = document.getElementById("layers");
+  var boards = [];
+
+  LAYERS.forEach(function (L) {
+    var isNew = L.state === "new";
+    var sec = document.createElement("section");
+    sec.className = "layer";
+
+    var head = document.createElement("div");
+    head.className = "lhead";
+    var nm = document.createElement("span");
+    nm.className = "lname"; nm.textContent = L.name;
+    head.appendChild(nm);
+    var ix = document.createElement("span");
+    ix.className = "lidx"; ix.textContent = "layer " + L.idx + (L.hybridOnly ? " · hybrid only" : "");
+    head.appendChild(ix);
+    if (isNew) {
+      var tg = document.createElement("span");
+      tg.className = "tag new"; tg.textContent = "new layer";
+      head.appendChild(tg);
+    }
+    if (L.state === "reachable") {
+      var tg2 = document.createElement("span");
+      tg2.className = "tag new"; tg2.textContent = "now reachable";
+      head.appendChild(tg2);
+    }
+    sec.appendChild(head);
+
+    var acc = document.createElement("p");
+    acc.className = "access";
+    var ak = document.createElement("span");
+    ak.className = "ak"; ak.textContent = "Reach";
+    var av = document.createElement("span");
+    av.innerHTML = L.access;
+    acc.appendChild(ak); acc.appendChild(av);
+    sec.appendChild(acc);
+
+    var scroller = document.createElement("div");
+    scroller.className = "scroller";
+    var board = document.createElement("div");
+    board.className = "board" + (isNew ? " all-new" : "");
+    L.keys.forEach(function (k, i) { board.appendChild(keyEl(k, i, isNew)); });
+    scroller.appendChild(board);
+    sec.appendChild(scroller);
+    boards.push(board);
+
+    if (L.notes && L.notes.length) {
+      var ul = document.createElement("ul");
+      ul.className = "notes";
+      L.notes.forEach(function (n) {
+        var li = document.createElement("li");
+        var sp = document.createElement("span");
+        sp.className = "pos" + (n.p === "—" ? " q" : "");
+        sp.innerHTML = n.p;
+        var tx = document.createElement("span");
+        tx.innerHTML = "<strong>" + n.h + "</strong> " + n.b;
+        li.appendChild(sp); li.appendChild(tx);
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+    }
+    host.appendChild(sec);
+  });
+
+  var tb = document.getElementById("combos");
+  COMBOS.forEach(function (c) {
+    var tr = document.createElement("tr");
+    tr.innerHTML = '<td class="k">' + c.k + '</td><td class="k">' + c.p + '</td><td>' + c.d +
+      ' <span style="color:var(--ink-3)">— ' + c.why + '</span></td><td class="st ' + c.s + '">' + c.s + '</td>';
+    tb.appendChild(tr);
+  });
+
+  // filter toggle
+  var bAll = document.getElementById("btn-all");
+  var bChg = document.getElementById("btn-chg");
+  var hint = document.getElementById("hint");
+
+  function apply(mode, persist) {
+    var only = mode === "changes";
+    boards.forEach(function (b) { b.classList.toggle("only-changes", only); });
+    bAll.setAttribute("aria-pressed", String(!only));
+    bChg.setAttribute("aria-pressed", String(only));
+    hint.textContent = only
+      ? "Unchanged keys dimmed. The Globe layer is new in full."
+      : "Showing every binding.";
+    if (persist) { try { localStorage.setItem("urchin-keymap-mode", mode); } catch (e) {} }
+  }
+
+  bAll.addEventListener("click", function () { apply("all", true); });
+  bChg.addEventListener("click", function () { apply("changes", true); });
+
+  var saved = null;
+  try { saved = localStorage.getItem("urchin-keymap-mode"); } catch (e) {}
+  apply(saved === "changes" ? "changes" : "all", false);
+})();
+</script>
+
+</body>
+</html>
