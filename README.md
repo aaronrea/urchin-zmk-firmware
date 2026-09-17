@@ -6,10 +6,10 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 [Here are the steps you need to take.](./GETTING_STARTED.md)
 
 ## Keymap
-- QWERTY with hrm;  {layer2, cmd/spc, cmd/spc, enter}
+- QWERTY with hrm;  {layer2, cmd/spc, cmd/spc, globe/enter}
 - num, sym, vim arrow, esc, del, etc {-> l1 tap/hold}
 - settings layer from duckyb (bt, fw, studio) {-> LH combo}
-- fn layer: F1-F12, Apple Globe, media/brightness, home/end/pgup/pgdn {-> RH combo}
+- globe layer: Apple's Globe shortcuts as macros {-> RH outer thumb hold}
 
 ### Layer access
 
@@ -17,11 +17,14 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 | --- | --- |
 | Base | default |
 | Mods / Ext | hold left outer thumb (tap it to lock the layer on) |
-| Sym (hybrid only) | hold `V`+`B` |
 | Settings | hold both left thumb keys |
-| Fn (F1-F12, media, page nav) | hold left outer thumb, then right outer thumb |
+| Globe | hold right outer thumb |
 
-### Globe / Fn
+There is no Sym layer. Everything it held was reachable as shift + something on
+the Mods layer -- 28 of its 30 keys exactly, and the two that were not
+(`PG_UP`, `PG_DN`) now live on the Globe layer.
+
+### The Globe layer
 
 There is no Fn key to map. On Apple keyboards Fn and Globe are the same physical
 key, and it is not a HID modifier: the real one is AppleVendor Top Case page
@@ -30,17 +33,33 @@ macOS/iOS only honour it from a device reporting Apple's own vendor ID. ZMK has
 no keycode for it and cannot send it.
 
 What ZMK can send is `GLOBE` -- consumer usage `0x029D`
-(`AC Next Keyboard Layout Select`), which Apple maps to the Globe key's
-keyboard-switching function. Held-Globe + letter chords work on iPadOS for some
-shortcuts and not others; `Fn`+F-key and `Fn`+arrow behaviours do not work at
-all. Two ways to reach it:
+(`AC Next Keyboard Layout Select`). Because it cannot be *held* as a modifier,
+each Globe shortcut is emitted as a macro that presses `GLOBE`, taps the key and
+releases `GLOBE` in order, with a 30 ms spacing so the consumer report lands
+before the keyboard report.
 
-- **Base layer, right outer thumb** (`&gt GLOBE ENTER`): hold for Globe, tap for
-  Enter. Globe chords have to live on the base layer, because that is the only
-  layer with letters on it. No combo sits on this key, so there is no
-  timeout to wait out before the chord registers.
-- **Mods layer, right pinky bottom row** (`&sk GLOBE`): sticky. Tap it, release
-  the layer, then tap a letter on the base layer.
+Hold the right outer thumb and press the letter you would press on a Magic
+Keyboard -- each shortcut sits on the key it is named after:
+
+| Key | Does | Key | Does |
+| --- | --- | --- | --- |
+| `E` | Show Emoji | `H` | Go to Home Screen |
+| `A` | Show/hide Dock | `N` | Show Lock Screen |
+| shift `A` | Show/hide App Library | `M` | Show Menu Bar |
+| `D` | Start Dictation | `F` | Enter/exit full screen |
+| `C` | Show Control Center | `;` | plain Globe (switch keyboard) |
+
+Top right of the layer is `Control`-`Globe`-arrow, which tiles the current
+window to that half of the screen.
+
+A sticky `&sk GLOBE` also sits on the Mods layer (right pinky, bottom row) as an
+escape hatch for any chord not on the Globe layer: tap it, release the layer,
+then tap the key.
+
+**Untested on hardware.** Apple's Globe shortcuts are documented for a real
+Apple keyboard; whether iPadOS honours them from a consumer-usage Globe is the
+thing to check first. If the macros do nothing, that is the reason, and the
+layer is the only part of this keymap that depends on it.
 
 Needs `CONFIG_ZMK_HID_CONSUMER_REPORT_USAGES_FULL=y` (set in `urchin.conf`) --
 the basic consumer range stops at `0xFF` and would drop `0x029D` silently.

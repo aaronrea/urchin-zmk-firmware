@@ -17,9 +17,6 @@ parse_config:
     combo_settings:
       align: top
       offset: 0.5
-    combo_sym:
-      align: bottom
-      offset: 0.5
 
 # Physical layout for urchin-hybrid (34-key split keyboard)
 # Layout: 3x5 column-stagger + 2 thumb keys per side

@@ -13,7 +13,9 @@
 #define BASE 0
 #define EXT 1
 #define SETTINGS 2
-#define FN 3
+// NB: not "GLOBE" -- that name is already the Apple Globe keycode in
+// keys.h, and redefining it turns every &kp GLOBE into &kp 3.
+#define GLB 3
 // -----------------
 
 // Key position groups, used for positional hold-taps.
@@ -55,20 +57,18 @@
 			bindings = <&kp>, <&kp>;
 		};
 
-		// Globe / Fn key with Enter on tap. "hold-preferred" and NO
-		// require-prior-idle-ms here, unlike &qt: this key's whole job is to be
-		// chorded, so it must resolve to the hold the instant the next key goes
-		// down, with no idle window to wait out. Rolling off ENTER into another
-		// key is rare enough to be worth that.
-		// Plain GLOBE (switch keyboard / emoji) = hold it alone past 200ms.
-		gt: globe_tap {
+		// Globe key. Hold it for the Globe layer, tap it for ENTER.
+		// "hold-preferred" and no require-prior-idle-ms: this key exists to be
+		// chorded, so it must engage the layer the instant the next key goes
+		// down. Rolling off ENTER into another key is rare enough to be worth it.
+		glt: globe_layer_tap {
 			compatible = "zmk,behavior-hold-tap";
-			label = "GLOBE_TAP";
+			label = "GLOBE_LAYER_TAP";
 			#binding-cells = <2>;
 			flavor = "hold-preferred";
 			tapping-term-ms = <200>;
 			quick-tap-ms = <200>;
-			bindings = <&kp>, <&kp>;
+			bindings = <&mo>, <&kp>;
 		};
 
 		// Home-row mods, left hand. Only triggers the hold (modifier) when the
@@ -127,6 +127,58 @@
 			#binding-cells = <0>;
 			bindings = <&kp LSHIFT &kp RSHIFT &kp LCTRL &kp RCTRL &kp LALT &kp RALT &kp LGUI &kp RGUI>;
 		};
+
+		// --- Globe chords, sent as a single keypress ---------------------------
+		// ZMK has no Fn modifier and cannot hold GLOBE as one (it is consumer
+		// usage 0x029D, not a HID modifier), so each Globe shortcut is emitted as
+		// a macro that presses GLOBE, taps the key and releases GLOBE in order.
+		// wait/tap of 30ms gives the host time to see the consumer report land
+		// before the keyboard report arrives.
+
+		// &gk X  ->  Globe + X
+		gk: globe_key {
+			compatible = "zmk,behavior-macro-one-param";
+			label = "GLOBE_KEY";
+			#binding-cells = <1>;
+			wait-ms = <30>;
+			tap-ms = <30>;
+			bindings
+				= <&macro_press &kp GLOBE>
+				, <&macro_param_1to1>
+				, <&macro_tap &kp MACRO_PLACEHOLDER>
+				, <&macro_release &kp GLOBE>
+				;
+		};
+
+		// &gsk X  ->  Globe + Shift + X
+		gsk: globe_shift_key {
+			compatible = "zmk,behavior-macro-one-param";
+			label = "GLOBE_SHIFT_KEY";
+			#binding-cells = <1>;
+			wait-ms = <30>;
+			tap-ms = <30>;
+			bindings
+				= <&macro_press &kp GLOBE &kp LSHIFT>
+				, <&macro_param_1to1>
+				, <&macro_tap &kp MACRO_PLACEHOLDER>
+				, <&macro_release &kp LSHIFT &kp GLOBE>
+				;
+		};
+
+		// &cgk X  ->  Control + Globe + X  (iPadOS window tiling)
+		cgk: ctrl_globe_key {
+			compatible = "zmk,behavior-macro-one-param";
+			label = "CTRL_GLOBE_KEY";
+			#binding-cells = <1>;
+			wait-ms = <30>;
+			tap-ms = <30>;
+			bindings
+				= <&macro_press &kp LCTRL &kp GLOBE>
+				, <&macro_param_1to1>
+				, <&macro_tap &kp MACRO_PLACEHOLDER>
+				, <&macro_release &kp GLOBE &kp LCTRL>
+				;
+		};
 	};
 
 	combos {
@@ -153,11 +205,9 @@
 			&kp Q &kp W &kp E &kp R &kp T           &kp Y &kp U  &kp I     &kp O   &kp P 
 			&hml LSHIFT A &hml LCTRL S &hml LALT D &kp F &kp G           &kp H &kp J  &hmr RALT K &hmr RCTRL L &hmr RSHIFT SEMI
 			&kp Z &kp X &kp C &kp V &kp B           &kp N &kp M  &kp COMMA &kp DOT &kp SLASH
-							&mo_tog EXT EXT &qt LCMD SPACE           &qt RCMD SPACE &gt GLOBE ENTER
+							&mo_tog EXT EXT &qt LCMD SPACE           &qt RCMD SPACE &glt GLB ENTER
 			>;
-			// Right outer thumb is the Globe/Fn key: hold it and press a letter
-			// for Globe+key chords (they only work from this layer -- the Mods
-			// layer has no letters on it). Tap it for ENTER.
+			// Right outer thumb: hold for the Globe layer, tap for ENTER.
 			// Optional: full mod parity by putting CMD on the index fingers.
 			// Swap "&kp F" for "&hml LGUI F" and "&kp J" for "&hmr RGUI J" if you
 			// want CMD without using a thumb (handy for CMD+TAB on iPadOS).
@@ -170,7 +220,7 @@
 			&kp N1 &kp N2 &kp N3 &kp N4 &kp N5		                           			&kp N6 &kp N7 &kp N8 &kp N9 &kp N0
 			&kp LSHIFT &kp GRAVE &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TAB  			&kp LEFT_ARROW &kp DOWN_ARROW &kp UP_ARROW &kp RIGHT_ARROW &kp RSHIFT
 			&kp LEFT_ALT &qt LEFT_CONTROL MINUS &kp SINGLE_QUOTE &kp EQUAL &kp BACKSLASH 	&kp ESC &kp BACKSPACE &kp DELETE &kp RIGHT_CONTROL &sk GLOBE
-																 &trans  &trans      &trans &mo FN
+																 &trans  &trans      &trans &trans
 			>;
 			// ' and \ replace the old TILDE / PIPE: both of those are just
 			// shifted versions of GRAVE and BACKSLASH, which are already here,
@@ -182,7 +232,6 @@
 			// without holding the base-layer Globe thumb.
 			// CMD on this layer comes from the right thumb (&trans -> &qt RCMD SPACE),
 			// e.g. CMD+LEFT / CMD+RIGHT for start/end of line on iOS.
-			// Right outer thumb reaches the FN layer from here.
 		};
 
 		// Used to change the keyboard's settings.
@@ -198,29 +247,24 @@
 				// BT_SEL 0 and unpairs the active profile on a single slip.
 		};
 
-		// Function keys, media and page navigation. Nested under the Mods layer:
-		// hold the left outer thumb (Mods) then the right outer thumb.
-		// Deliberately the deepest layer -- it is the least used, and keeping it off
-		// a thumb combo means neither SPACE nor the Globe thumb pays a combo
-		// resolution delay.
-		fn_layer {
-				label = "Fn";
+		// Apple's documented Globe shortcuts, each on the letter it is named
+		// after -- hold the Globe thumb and press the letter you would press on a
+		// Magic Keyboard. Reached with one thumb from the base layer.
+		globe_layer {
+				label = "Globe";
 				bindings = <
-				&kp F1 &kp F2 &kp F3 &kp F4 &kp F5                                      &kp C_PREV &kp C_PP &kp C_NEXT &kp C_BRI_DN &kp C_BRI_UP
-				&kp F6 &kp F7 &kp F8 &kp F9 &kp F10                                     &kp HOME &kp PG_DN &kp PG_UP &kp END &kp C_VOL_UP
-				&kp F11 &kp F12 &kp LG(H) &kp LG(TAB) &kp LG(SPACE)                     &kp LS(LG(N3)) &kp LS(LG(N4)) &kp CAPS &kp C_MUTE &kp C_VOL_DN
-										&none &tog EXT                              &trans &trans
+				&none &none &gk E &none &none                                   &cgk LEFT &cgk DOWN &cgk UP &cgk RIGHT &none
+				&gk A &none &gk D &gk F &none                                   &gk H &kp PG_DN &kp PG_UP &kp C_VOL_UP &kp GLOBE
+				&gsk A &none &gk C &none &none                                  &gk N &gk M &kp C_MUTE &kp C_VOL_DN &none
+										&none &none                         &trans &trans
 				>;
-				// Left bottom row = iPadOS/iOS system shortcuts:
-				//   CMD+H     -> home screen
-				//   CMD+TAB   -> app switcher / previous app
-				//   CMD+SPACE -> Spotlight search
-				// Right bottom row starts with the two iOS/macOS screenshot
-				// shortcuts (CMD+SHIFT+3 full screen, CMD+SHIFT+4 region/markup).
-				// HOME/PG_DN/PG_UP/END sit exactly where the arrow keys are on the
-				// Mods layer -- they are here because Fn+arrow, which is what does
-				// this on a real Apple keyboard, cannot be sent from ZMK.
-				// Globe itself lives on the base layer (right outer thumb), not here.
+				// E emoji · A dock · shift-A app library · D dictation
+				// F full screen · C control centre · H home · N lock screen
+				// M menu bar · GLOBE on its own switches keyboard
+				// Top right: control-Globe-arrow tiles the window to that half.
+				// PG_UP / PG_DN sit on the same columns as UP / DOWN on the Mods
+				// layer; they are the only two keys the old Sym layer had that
+				// were not reachable as shift + something on Mods.
 		};
 	};
 };
