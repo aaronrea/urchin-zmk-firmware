@@ -3,6 +3,9 @@
 # using `west boards --format "{qualifiers}"`, which does not exist in the
 # Zephyr v3.5 that ZMK v0.3.0 pulls -- it raised KeyError: 'qualifiers', failed
 # the job after a successful build, and skipped artifact upload.
+# There is no keymap-drawer job. The rendered keymap reference is maintained by
+# hand at docs/keymap.html and committed with the keymap changes it describes.
+# Nothing here needs "contents: write" any more.
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
@@ -17,15 +20,3 @@ jobs:
     with:
       build_matrix_path: build-hybrid.yaml
       archive_name: firmware-hybrid
-
-  draw:
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
-    permissions:
-      contents: write
-    with:
-      keymap_patterns: "config/*.keymap"
-      config_path: "keymap_drawer.yaml"
-      output_folder: "keymap-drawer"
-      parse_args: ""
-      draw_args: "urchin-hybrid:'-z urchin'"
-      commit_message: "[Draw] Update keymap images"
