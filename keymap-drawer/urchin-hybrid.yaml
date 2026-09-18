@@ -31,11 +31,11 @@ layers:
   - ','
   - .
   - /
-  - {t: Ext, h: Ext}
+  - {t: Mods, h: Mods}
   - {t: SPACE, h: LCMD}
   - {t: SPACE, h: RCMD}
-  - ENTER
-  Ext:
+  - {t: ENTER, h: Globe}
+  Mods:
   - '1'
   - '2'
   - '3'
@@ -65,43 +65,8 @@ layers:
   - BACKSPACE
   - DELETE
   - RIGHT CONTROL
-  - RIGHT ALT
+  - {t: GLOBE, h: '$$mdi:backup-restore$$'}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  Sym:
-  - '!'
-  - '@'
-  - '#'
-  - $
-  - '%'
-  - ^
-  - '&'
-  - '*'
-  - '-'
-  - '='
-  - '~'
-  - '`'
-  - '{'
-  - '}'
-  - '|'
-  - LEFT
-  - DOWN
-  - UP
-  - RIGHT
-  - PAGE UP
-  - LEFT ALT
-  - _
-  - (
-  - )
-  - \
-  - ESC
-  - BACKSPACE
-  - DELETE
-  - RIGHT CONTROL
-  - PAGE DOWN
-  - {t: Sym, h: toggle}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -109,7 +74,7 @@ layers:
   - '&bootloader'
   - '&studio_unlock'
   - ''
-  - BT CLR
+  - ''
   - {t: BT, h: '0'}
   - {t: BT, h: '3'}
   - ''
@@ -129,27 +94,67 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - BT CLR
   - {t: BT, h: '2'}
   - {t: BT, h: '5'}
   - ''
   - ''
   - ''
   - ''
-  - {type: held}
-  - {type: held}
+  - {t: Base, h: toggle}
+  - {t: Base, h: toggle}
+  - {t: Base, h: toggle}
+  - {t: Base, h: toggle}
+  Globe:
   - ''
   - ''
+  - '&gk E'
+  - ''
+  - ''
+  - '&cgk LEFT'
+  - '&cgk DOWN'
+  - '&cgk UP'
+  - '&cgk RIGHT'
+  - ''
+  - '&gk A'
+  - ''
+  - '&gk D'
+  - '&gk F'
+  - ''
+  - '&gk H'
+  - PG DN
+  - PG UP
+  - VOL UP
+  - GLOBE
+  - '&gsk A'
+  - ''
+  - '&gk C'
+  - ''
+  - ''
+  - '&gk N'
+  - '&gk M'
+  - MUTE
+  - VOL DN
+  - ''
+  - ''
+  - ''
+  - {t: ▽, type: trans}
+  - {type: held}
 combos:
-- p: [30, 31]
-  k: Settings
+- p: [4, 5]
+  k: {t: Settings, h: toggle}
+  l: [Mods]
   a: top
   o: 0.5
 - p: [5, 6]
   k: BSPC
+  l: [Base]
 - p: [3, 4]
   k: TAB
+  l: [Base]
 - p: [13, 14]
   k: ESC
+  l: [Base]
 - p: [15, 16]
   k: ENTER
+  l: [Base]
