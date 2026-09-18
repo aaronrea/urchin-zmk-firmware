@@ -2,6 +2,16 @@
  * Copyright (c) 2020 duckyb
  *
  * SPDX-License-Identifier: MIT
+ *
+ * NOT BUILT. Kept for history and reference.
+ *
+ * config/urchin-hybrid.keymap is the one that ships. This file is identical to
+ * it except that the hybrid adds four base-layer combos: Y+U backspace,
+ * R+T tab, F+G escape, H+J enter. Without them, backspace, tab and escape all
+ * require holding the Mods thumb, which is why the hybrid is the one built.
+ *
+ * It is still the keymap ZMK would pick up by default -- the hybrid only wins
+ * because build-hybrid.yaml points DTC_OVERLAY_FILE at it.
  */
 
 #include <behaviors.dtsi>

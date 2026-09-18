@@ -5,6 +5,17 @@ Firmware for: [Urchin Keyboard](https://github.com/duckyb/urchin)
 **Are you trying to make your own ZMK firmware?**  
 [Here are the steps you need to take.](./GETTING_STARTED.md)
 
+## Firmware
+
+One firmware is built, from `config/urchin-hybrid.keymap`. `config/urchin.keymap`
+is kept for history and reference but is not built -- see the note at the top of
+that file. The two are identical apart from four base-layer combos the hybrid
+adds (`Y`+`U` backspace, `R`+`T` tab, `F`+`G` escape, `H`+`J` enter); without
+them those three keys all need the Mods thumb.
+
+The `settings_reset` target is built alongside it. Flash that to clear bluetooth
+pairings.
+
 ## Keymap
 - QWERTY with hrm;  {layer2, cmd/spc, cmd/spc, globe/enter}
 - num, sym, vim arrow, esc, del, etc {-> l1 tap/hold}

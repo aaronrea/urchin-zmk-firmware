@@ -9,11 +9,17 @@
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build-standard:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
-    with:
-      build_matrix_path: build-standard.yaml
-      archive_name: firmware-standard
+  # The standard keymap (config/urchin.keymap) is no longer built. It is kept in
+  # the repo for history and reference -- it is what ZMK would pick up by default
+  # if the hybrid overlay below were removed. Uncomment to build it again; note
+  # that settings_reset moved into build-hybrid.yaml, so re-enabling this would
+  # build it twice.
+  #
+  # build-standard:
+  #   uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+  #   with:
+  #     build_matrix_path: build-standard.yaml
+  #     archive_name: firmware-standard
 
   build-hybrid:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
