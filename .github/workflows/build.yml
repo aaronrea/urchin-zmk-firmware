@@ -1,26 +1,28 @@
+# The reusable build workflow is pinned to v0.3.0 to match the ZMK revision in
+# config/west.yml. On @main it assumes Zephyr 4.1 and runs a post-build check
+# using `west boards --format "{qualifiers}"`, which does not exist in the
+# Zephyr v3.5 that ZMK v0.3.0 pulls -- it raised KeyError: 'qualifiers', failed
+# the job after a successful build, and skipped artifact upload.
+# There is no keymap-drawer job. The rendered keymap reference is maintained by
+# hand at docs/keymap.html and committed with the keymap changes it describes.
+# Nothing here needs "contents: write" any more.
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build-standard:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      build_matrix_path: build-standard.yaml
-      archive_name: firmware-standard
+  # The standard keymap (config/urchin.keymap) is no longer built. It is kept in
+  # the repo for history and reference -- it is what ZMK would pick up by default
+  # if the hybrid overlay below were removed. Uncomment to build it again; note
+  # that settings_reset moved into build-hybrid.yaml, so re-enabling this would
+  # build it twice.
+  #
+  # build-standard:
+  #   uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+  #   with:
+  #     build_matrix_path: build-standard.yaml
+  #     archive_name: firmware-standard
 
   build-hybrid:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
     with:
       build_matrix_path: build-hybrid.yaml
       archive_name: firmware-hybrid
-
-  draw:
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
-    permissions:
-      contents: write
-    with:
-      keymap_patterns: "config/*.keymap"
-      config_path: "keymap_drawer.yaml"
-      output_folder: "keymap-drawer"
-      parse_args: ""
-      draw_args: ""
-      commit_message: "[Draw] Update keymap images"

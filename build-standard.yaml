@@ -1,4 +1,6 @@
-# Standard firmware build matrix
+# Standard firmware build matrix -- NOT CURRENTLY USED.
+# The build-standard job in .github/workflows/build.yml is commented out, so
+# nothing reads this file. Kept alongside config/urchin.keymap as reference.
 ---
 include:
   - board: nice_nano_v2
