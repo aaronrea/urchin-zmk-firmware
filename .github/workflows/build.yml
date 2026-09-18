@@ -1,14 +1,19 @@
+# The reusable build workflow is pinned to v0.3.0 to match the ZMK revision in
+# config/west.yml. On @main it assumes Zephyr 4.1 and runs a post-build check
+# using `west boards --format "{qualifiers}"`, which does not exist in the
+# Zephyr v3.5 that ZMK v0.3.0 pulls -- it raised KeyError: 'qualifiers', failed
+# the job after a successful build, and skipped artifact upload.
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build-standard:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
     with:
       build_matrix_path: build-standard.yaml
       archive_name: firmware-standard
 
   build-hybrid:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
     with:
       build_matrix_path: build-hybrid.yaml
       archive_name: firmware-hybrid
@@ -22,5 +27,5 @@ jobs:
       config_path: "keymap_drawer.yaml"
       output_folder: "keymap-drawer"
       parse_args: ""
-      draw_args: ""
+      draw_args: "urchin-hybrid:'-z urchin'"
       commit_message: "[Draw] Update keymap images"
