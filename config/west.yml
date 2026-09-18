@@ -22,6 +22,9 @@ manifest:
       revision: main
     - name: nice-view-gem
       remote: m165437
-      revision: main
+      # Pinned, not "main": ZMK v0.3.0 pulls Zephyr v3.5 (LVGL 8), while
+      # nice-view-gem's main has moved to the LVGL 9 API (lv_draw_image_dsc_t,
+      # LV_COLOR_FORMAT_I1) and no longer compiles against it.
+      revision: v0.3.0
   self:
     path: config

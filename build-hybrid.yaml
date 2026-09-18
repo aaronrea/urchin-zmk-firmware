@@ -1,11 +1,16 @@
 # Hybrid firmware build matrix
+#
+# DTC_OVERLAY_FILE needs an absolute path. ZMKCONFIG_DIR is not a real variable
+# anywhere in this pipeline, so the shell expanded it to nothing and the build
+# looked for /urchin-hybrid.keymap. GITHUB_WORKSPACE is set by the runner and
+# is where the repo is checked out.
 ---
 include:
   - board: nice_nano_v2
     shield: urchin_left nice_view_adapter  nice_view_gem
     snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DDTC_OVERLAY_FILE="${ZMKCONFIG_DIR}/urchin-hybrid.keymap"
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DDTC_OVERLAY_FILE="${GITHUB_WORKSPACE}/config/urchin-hybrid.keymap"
   - board: nice_nano_v2
     shield: urchin_right nice_view_adapter nice_view_gem
     snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DDTC_OVERLAY_FILE="${ZMKCONFIG_DIR}/urchin-hybrid.keymap"
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DDTC_OVERLAY_FILE="${GITHUB_WORKSPACE}/config/urchin-hybrid.keymap"
