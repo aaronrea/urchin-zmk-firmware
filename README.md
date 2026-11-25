@@ -22,24 +22,24 @@ pairings.
 - settings layer from duckyb (bt, fw, studio) {-> mods + 5&6}
 - globe layer: Apple's Globe shortcuts as macros {-> RH outer thumb hold}
 
-A rendered map of all four layers, with every key that changed on this branch
-marked, lives at [`docs/keymap.html`](./docs/keymap.html) -- open it in a
+A rendered map of all four layers lives at [`docs/keymap.html`](./docs/keymap.html) -- open it in a
 browser. It is maintained by hand and committed alongside the keymap changes
-it describes, so it is the one place to look.
+it describes. The Obsidian cheat sheet is
+[`docs/urchin-cheatsheet.md`](./docs/urchin-cheatsheet.md).
 
 ### Layer access
 
 | Layer | How to reach it |
 | --- | --- |
 | Base | default |
-| Mods / Ext | hold left outer thumb (tap it to lock the layer on) |
+| Mods / Ext | hold left outer thumb (hold only; a tap does nothing) |
 | Settings | hold Mods, tap positions 4+5, release (latched) |
 | Globe | hold right outer thumb |
 
 Settings is latched rather than held: hold Mods, tap the 4+5 combo, and let go.
 Both hands come free, so every key on the layer stays reachable and the
 Bluetooth block keeps its original positions. **Any thumb returns you to base**
--- all four are `&to BASE`, which also clears a locked Mods layer on the way.
+-- all four are `&to BASE`, which clears every other layer on the way.
 
 The combo itself is deliberately awkward to hit: two hands, two steps, pinned to
 the Mods layer so it cannot fire from base at all, and 4+5 is a cross-hand pair
@@ -92,11 +92,11 @@ the basic consumer range stops at `0xFF` and would drop `0x029D` silently.
 
 ### iOS / iPadOS notes
 
-- The Fn layer's left bottom row has the shortcuts that work regardless of
-  Globe: `CMD+H` (home screen), `CMD+TAB` (app switcher), `CMD+SPACE`
-  (Spotlight). Bottom right adds `CMD+SHIFT+3` / `CMD+SHIFT+4` screenshots.
-- `HOME`/`END`/`PG_UP`/`PG_DN` are real keys on the Fn layer because the Apple
-  way of getting them (`Fn`+arrow) cannot be sent from ZMK.
+- Some Globe shortcuts do nothing on iPadOS, because ZMK sends a stand-in
+  Globe code rather than Apple's real Fn. Plain `CMD` shortcuts always work:
+  `CMD+H` (home screen), `CMD+TAB` (app switcher), `CMD+SPACE` (Spotlight).
+- `PG_UP`/`PG_DN` are real keys on the Globe layer because the Apple way of
+  getting them (`Fn`+arrow) cannot be sent from ZMK.
 - `CMD` for arrow-key line navigation comes from the right thumb while the Mods
   layer is held (`CMD+LEFT` / `CMD+RIGHT` = start/end of line).
 

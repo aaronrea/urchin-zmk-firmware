@@ -9,17 +9,11 @@
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  # The standard keymap (config/urchin.keymap) is no longer built. It is kept in
-  # the repo for history and reference -- it is what ZMK would pick up by default
-  # if the hybrid overlay below were removed. Uncomment to build it again; note
-  # that settings_reset moved into build-hybrid.yaml, so re-enabling this would
-  # build it twice.
-  #
-  # build-standard:
-  #   uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
-  #   with:
-  #     build_matrix_path: build-standard.yaml
-  #     archive_name: firmware-standard
+  # Only the hybrid keymap is built. config/urchin.keymap is kept for reference
+  # and is not compiled: build-hybrid.yaml passes DTC_OVERLAY_FILE, which wins
+  # over the keymap ZMK would otherwise pick by shield name (the CI log still
+  # prints "Using keymap file: urchin.keymap", but the overlay list shows the
+  # hybrid is the one compiled).
 
   build-hybrid:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0

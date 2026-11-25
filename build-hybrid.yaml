@@ -17,6 +17,6 @@ include:
   # Stock ZMK shield that wipes the settings partition -- flash it to clear
   # bluetooth pairings. Deliberately no DTC_OVERLAY_FILE: it is not the urchin
   # shield and does not take the urchin keymap. Moved here from
-  # build-standard.yaml when that build was retired.
+  # the standard build matrix when that build was retired.
   - board: nice_nano_v2
     shield: settings_reset

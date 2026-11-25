@@ -362,7 +362,7 @@
         "F","G","H","J",
         { t:"K", h:"⌥", s:"tuned" }, { t:"L", h:"⌃", s:"tuned" }, { t:";", h:"⇧", s:"tuned" },
         "Z","X","C","V","B","N","M",",",".","/",
-        { t:"lock", h:"MODS", k:"layer" },
+        { t:"MODS", k:"layer", s:"tuned" },
         { t:"SPC", h:"⌘", k:"sm", s:"tuned" },
         { t:"SPC", h:"⌘", k:"sm", s:"tuned" },
         { t:"ENT", h:"GLOBE", s:"new", k:"globe" }
@@ -371,12 +371,12 @@
         { p:"33", h:"Globe layer key, new.", b:"Hold it for the Globe layer, tap it for Enter. <code>&amp;glt GLB ENTER</code> is hold-preferred with no prior-idle window, so the layer engages the instant the next key goes down. One thumb, no combo." },
         { p:"10–12<br>17–19", h:"Home-row mods, retuned.", b:"<code>&amp;mt</code> defaults to hold-preferred with no positional guard, so rolling <code>as</code> sent <code>⇧S</code> and <code>sd</code> sent <code>⌃D</code>. Now <code>&amp;hml</code>/<code>&amp;hmr</code>: balanced, positional, with a prior-idle guard." },
         { p:"31 32", h:"Space thumbs, retuned.", b:"Same reason — rolling off space into the next letter was firing <code>⌘W</code>." },
-        { p:"30", h:"Unchanged, and still the one to watch.", b:"An isolated tap <em>locks</em> the Mods layer on. That is the “suddenly typing numbers” accident; swap <code>&amp;mo_tog EXT EXT</code> for <code>&amp;mo EXT</code> if it keeps biting." }
+        { p:"30", h:"Mods thumb is hold-only now.", b:"It was <code>&amp;mo_tog EXT EXT</code>, where an isolated tap <em>locked</em> the Mods layer on — the “suddenly typing numbers” accident. Now plain <code>&amp;mo EXT</code>: a tap does nothing." }
       ]
     },
     {
       name: "Mods", idx: 1,
-      access: "Hold the left outer thumb (30). Tapping it locks the layer on.",
+      access: "Hold the left outer thumb (30). Hold only; tapping it does nothing.",
       keys: row([
         "1","2","3","4","5","6","7","8","9","0",
         "⇧", { t:"`", c:"grave" },"[","]","⇥","←","↓","↑","→","⇧",
@@ -404,7 +404,7 @@
         { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }, { t:"BASE", k:"layer", s:"new" }
       ]),
       notes: [
-        { p:"30–33", h:"Any thumb gets you out.", b:"All four are <code>&amp;to BASE</code>, which clears every other layer on the way — including a Mods layer left locked by a stray <code>mo_tog</code> tap. The layer is latched, so all four thumbs are free to be exits." },
+        { p:"30–33", h:"Any thumb gets you out.", b:"All four are <code>&amp;to BASE</code>, which clears every other layer on the way. The layer is latched, so all four thumbs are free to be exits." },
         { p:"4 5", h:"The combo is a tap, not a hold.", b:"Hold Mods, tap 4+5, release. <code>&amp;tog</code> latches the layer, so both hands come free and every key here stays reachable — which is why the Bluetooth block keeps its original spots." },
         { p:"—", h:"Hard to reach by accident, on purpose.", b:"Cross-hand pair, 50 ms window, prior-idle guard, and pinned to the Mods layer so it cannot fire from base. It also cannot retrigger from inside Settings, since Settings then outranks Mods as the highest active layer." },
         { p:"23", h:"BT CLR moved off position 3.", b:"It used to sit directly beside <code>BT_SEL 0</code>, and it unpairs the active profile on a single slip." }
